@@ -1,0 +1,9 @@
+version: "3" # composeファイルのバージョン
+services: 
+    go-tech-blog: # サービス名
+        build: . # ビルドに使うDockerfileの場所
+        ports:
+            - 8080:8080
+        tty: true # コンテナの永続化
+        volumes:
+            - ./:/go-tech-blog # マウントディレクトリ
