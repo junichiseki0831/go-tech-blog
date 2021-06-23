@@ -7,5 +7,3 @@ RUN mkdir /go-tech-blog
 WORKDIR /go-tech-blog
 # ホストのファイルをコンテナの作業ディレクトリに移行
 ADD . /go-tech-blog
-
-EXPOSE 8080
