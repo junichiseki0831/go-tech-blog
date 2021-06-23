@@ -72,6 +72,7 @@ func articleNew(c echo.Context) error {
 }
 
 func articleShow(c echo.Context) error {
+	//　パスパラメータを抽出
 	id, _ := strconv.Atoi(c.Param("id"))
 
 	data := map[string]interface{}{
