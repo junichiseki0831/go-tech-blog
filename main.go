@@ -34,6 +34,8 @@ func createMux() *echo.Echo {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Gzip())
 
+	e.Static("/css", "src/css")
+
 	// アプリケーションインスタンスを返す
 	return e
 }
