@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/flosch/pongo2"
@@ -19,6 +20,10 @@ func main() {
 
 	// URLと `articleIndex` という処理を結びつける
 	e.GET("/", articleIndex)
+	//ルーティング設定追加
+	e.GET("/new", articleNew)
+	e.GET("/:id", articleShow)
+	e.GET("/:id/edit", articleEdit)
 	// Webサーバーをポート番号 8080 で起動する
 	e.Logger.Fatal(e.Start(":8080"))
 }
@@ -50,11 +55,44 @@ func articleIndex(c echo.Context) error {
 
 	// htmlに渡すデータ作成
 	data := map[string]interface{}{
-		"Message": "Hello, World!",
+		"Message": "Article Index",
 		"Now":     time.Now(),
 	}
 
 	return render(c, "article/index.html", data)
+}
+
+func articleNew(c echo.Context) error {
+	data := map[string]interface{}{
+		"Message": "Article New",
+		"Now":     time.Now(),
+	}
+
+	return render(c, "article/new.html", data)
+}
+
+func articleShow(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	data := map[string]interface{}{
+		"Message": "Article Show",
+		"Now":     time.Now(),
+		"ID":      id,
+	}
+
+	return render(c, "article/show.html", data)
+}
+
+func articleEdit(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	data := map[string]interface{}{
+		"Message": "Article Edit",
+		"Now":     time.Now(),
+		"ID":      id,
+	}
+
+	return render(c, "article/edit.html", data)
 }
 
 // pongo2でテンプレートファイルとデータから HTML を生成
