@@ -21,7 +21,8 @@ func ArticleIndex(c echo.Context) error {
 
 	// htmlに渡すデータ作成
 	data := map[string]interface{}{
-		"Message":  "Article Index",
+		//"Message":  "Article Index",
+		"Message":  "Article Index Updated",
 		"Now":      time.Now(),
 		"Articles": articles, // 記事データをテンプレートエンジンに渡す
 	}

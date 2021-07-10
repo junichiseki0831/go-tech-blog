@@ -55,7 +55,7 @@ func createMux() *echo.Echo {
 func connectDB() *sqlx.DB {
 	//dsn := os.Getenv("DSN")
 	//環境変数を設定していないためとりあえず直書き
-	dsn := "sample_user@tcp(192.168.112.2:3306)/techblog?parseTime=true&autocommit=0&sql_mode=%27TRADITIONAL,NO_AUTO_VALUE_ON_ZERO,ONLY_FULL_GROUP_BY%27"
+	dsn := "sample_user:sample_user..@tcp(192.168.96.2:3306)/techblog"
 	fmt.Println(dsn)
 	db, err := sqlx.Open("mysql", dsn)
 	if err != nil {

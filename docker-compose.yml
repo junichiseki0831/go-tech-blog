@@ -19,7 +19,12 @@ services:
             - ./mysql/data:/var/lib/mysql
         environment: 
             - MYSQL_ROOT_PASSWORD=goblog
+            - MYSQL_DATABASE=techblog
+            - MYSQL_USER=sample_user
+            - MYSQL_PASSWORD=sample_user..
+            - TZ=Asia/Tokyo
         ports:
             - "3306:3306"
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        
         
