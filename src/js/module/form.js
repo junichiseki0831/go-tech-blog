@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 新規作成画面か編集画面かを URL から判定
   const mode = { method: '', url: '' };
+
   if (window.location.pathname.endsWith('new')) {
     // 新規作成時の HTTP メソッドは POST を利用
     mode.method = 'POST';
@@ -28,6 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     mode.url = `/${window.location.pathname.split('/')[1]}`;
   }
   const { method, url } = mode;
+  // CSRF トークンを取得
+  const csrfToken = document.getElementsByName('csrf')[0].content;
 
   // input 要素にフォーカスが合った状態で Enter が押されると form が送信
   // 今回は Enter キーで form が送信されないように挙動を制御
@@ -46,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // プレビューを開くイベントを設定
   previewOpenBtn.addEventListener('click', event => {
 
-    // form の「本文」に入力された Markdown を HTML に変換してプレビューに埋め込みます。
+    // form の「本文」に入力された Markdown を HTML に変換してプレビューに埋め込み
     articleFormPreviewTextArea.innerHTML = md.render(articleFormBodyTextArea.value);
 
     // 入力フォームを非表示
@@ -72,5 +75,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // URL を指定して画面を遷移
     window.location.href = url;
+  });
+
+  // 保存処理を実行するイベントを設定
+  saveBtn.addEventListener('click', event => {
+    event.preventDefault();
+
+    // フォームに入力された内容を取得
+    const fd = new FormData(form);
+
+    let status;
+
+    // fetch API を利用してリクエストを送信
+    fetch(url, {
+      method: method,
+      headers: { 'X-CSRF-Token': csrfToken },
+      body: fd
+    })
+      .then(res => {
+        status = res.status;
+        return res.json();
+      })
+      .then(body => {
+        console.log(JSON.stringify(body));
+
+        if (status === 200) {
+          // 成功時は一覧画面に遷移
+          window.location.href = url;
+        }
+
+        if (body.ValidationErrors) {
+          // バリデーションエラーがある場合の処理をここに記載
+        }
+      })
+      .catch(err => console.error(err));
   });
 });

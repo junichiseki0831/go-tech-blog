@@ -27,6 +27,7 @@ func main() {
 	e.GET("/new", handler.ArticleNew)
 	e.GET("/:id", handler.ArticleShow)
 	e.GET("/:id/edit", handler.ArticleEdit)
+	e.POST("/", handler.ArticleCreate)
 	// Webサーバーをポート番号 8080 で起動する
 	e.Logger.Fatal(e.Start(":8080"))
 }
@@ -41,6 +42,8 @@ func createMux() *echo.Echo {
 	e.Use(middleware.Recover())
 	e.Use(middleware.Logger())
 	e.Use(middleware.Gzip())
+	// CSRF対策
+	e.Use(middleware.CSRF())
 
 	//cssの使用
 	e.Static("/css", "src/css")
@@ -55,7 +58,7 @@ func createMux() *echo.Echo {
 func connectDB() *sqlx.DB {
 	//dsn := os.Getenv("DSN")
 	//環境変数を設定していないためとりあえず直書き
-	dsn := "sample_user:sample_user..@tcp(192.168.96.2:3306)/techblog"
+	dsn := "sample_user:sample_user..@tcp(192.168.112.2:3306)/techblog?parseTime=true"
 	fmt.Println(dsn)
 	db, err := sqlx.Open("mysql", dsn)
 	if err != nil {
