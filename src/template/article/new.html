@@ -1,11 +1,21 @@
 {% extends "../layout.html" %}
 
 {% block css %}
+<link rel="stylesheet" href="/css/vendor/prism.css" />
 <link rel="stylesheet" href="/css/article/new.css" />
 <link rel="stylesheet" href="/css/article/_form.css" />
+<link rel="stylesheet" href="/css/article/_article.css" />
 {% endblock %}
 
 {% block js %}
+<!-- Markdonw 記法の HTML への変換 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/remarkable/2.0.0/remarkable.min.js"></script>
+<!-- シンタックスハイライト -->
+<script src="/js/vendor/prism.js"></script>
+<script src="/js/module/parser.js"></script>
+<!-- 入力モードとプレビューモードの切り替え -->
+<script src="/js/module/form.js"></script>
+
 <script src="/js/article/new.js"></script>
 {% endblock %}
 
