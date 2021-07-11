@@ -10,6 +10,7 @@ import (
 	"github.com/junichiseki0831/go-tech-blog/repository"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"gopkg.in/go-playground/validator.v9" //バリデーション
 )
 
 var db *sqlx.DB
@@ -49,6 +50,8 @@ func createMux() *echo.Echo {
 	e.Static("/css", "src/css")
 	//jsの使用
 	e.Static("/js", "src/js")
+	//バリデーション
+	e.Validator = &CustomValidator{validator: validator.New()}
 
 	// アプリケーションインスタンスを返す
 	return e
@@ -70,3 +73,13 @@ func connectDB() *sqlx.DB {
 	log.Println("db connection succeeded")
 	return db
 }
+
+  // CustomValidator ...
+  type CustomValidator struct {
+    validator *validator.Validate
+  }
+ 
+  // Validate ...
+  func (cv *CustomValidator) Validate(i interface{}) error {
+    return cv.validator.Struct(i)
+  }
